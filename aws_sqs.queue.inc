@@ -348,7 +348,7 @@ class AwsSqsQueue implements DrupalReliableQueueInterface {
    * per discussion here: https://drupal.org/node/1956190).
    */
   protected static function unserialize($data) {
-    return serialize($data);
+    return unserialize($data);
   }
 
   /*******************************************************
