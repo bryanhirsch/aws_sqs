@@ -220,14 +220,17 @@ class AwsSqsQueue implements DrupalReliableQueueInterface {
       'WaitTimeSeconds' => $waitTimeSeconds,
     ));
 
-    // TODO Add error handling, in case service becomes unavailable.
-
+    // @todo Add error handling, in case service becomes unavailable.
     $item = new stdClass();
     $message = $response->getPath('Messages/*');
     $item->data = $this->unserialize($message['Body']);
     $item->item_id = $message['ReceiptHandle'];
 
-    return $item;
+    if (!empty($item->item_id)) {
+      return $item;
+    }
+
+    return FALSE;
   }
 
   /**
